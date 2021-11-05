@@ -23,15 +23,15 @@ class moving_average():
             fig = go.Figure()
 
             #Candlestick
-            fig.add_trace(go.Candlestick(x=data.index.tz_convert("US/Pacific"),
+            fig.add_trace(go.Candlestick(x=data.index.tz_convert("US/Eastern"),
                         open=data['Open'],
                         high=data['High'],
                         low=data['Low'],
                         close=data['Close'], name = 'market data'))
 
             # Add moving averages lines
-            fig.add_trace(go.Scatter(x=data.index.tz_convert("US/Pacific"), y= data['MA20'],line=dict(color='blue', width=1.5), name = 'Long Term MA'))
-            fig.add_trace(go.Scatter(x=data.index.tz_convert("US/Pacific"), y= data['MA5'],line=dict(color='orange', width=1.5), name = 'Short Term MA'))
+            fig.add_trace(go.Scatter(x=data.index.tz_convert("US/Eastern"), y= data['MA20'],line=dict(color='blue', width=1.5), name = 'Long Term MA'))
+            fig.add_trace(go.Scatter(x=data.index.tz_convert("US/Eastern"), y= data['MA5'],line=dict(color='orange', width=1.5), name = 'Short Term MA'))
             
             # Save image
             fig.write_html(self.ticker + ".html")
@@ -41,7 +41,7 @@ class moving_average():
                 tmp = "buy"
             else:
                 tmp = "sell"
-            time = data.index[-1].tz_convert("US/Pacific").strftime("%d/%m/%Y %H:%M:%S")
+            time = data.index[-1].tz_convert("US/Eastern").strftime("%d/%m/%Y %H:%M:%S")
             return time, data['Close'][-1], tmp
         # Store new data in seperate location
         df = data.loc[:, ['Close', 'MA5', 'MA20']]
@@ -49,7 +49,7 @@ class moving_average():
             tmp = "buy"
         else:
             tmp = "sell"
-        time = data.index[-2].tz_convert("US/Pacific").strftime("%d/%m/%Y %H:%M:%S")
+        time = data.index[-2].tz_convert("US/Eastern").strftime("%d/%m/%Y %H:%M:%S")
         return time, df['Close'][-2], tmp
 
 if __name__ == '__main__':
